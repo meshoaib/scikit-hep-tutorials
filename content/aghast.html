@@ -1,0 +1,448 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Saving and loading Histograms &#8212; Scikit-HEP Tutorials</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/sphinx-book-theme.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/mystnb.js"></script>
+    <script src="../_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .secondtoggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Playing with the HEP system of units" href="basics/units.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Scikit-HEP Tutorials</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  
+  <ul class="nav sidenav_l1">
+  <li class="">
+    <a href="intro.html">Welcome to Scikit-HEP Tutorials!</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">Basics</p>
+</li>
+  <li class="">
+    <a href="basics/README.html">Tutorials on basics</a>
+  </li>
+  <li class="">
+    <a href="basics/units.html">The HEP System of Units</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">Histograms</p>
+</li>
+  <li class="active">
+    <a href="">Saving and loading Histograms</a>
+  </li>
+</ul>
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse" data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu" aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation" title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+            <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
+
+            
+            <div class="dropdown-buttons">
+                <!-- ipynb file if we had a myst markdown file -->
+                
+                <!-- Download raw file -->
+                <a class="dropdown-buttons" href="../_sources/content/aghast.ipynb.txt"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+                <!-- Download PDF via print -->
+                <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+            </div>
+            
+        </div>
+
+        <!-- Edit this page -->
+        
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+        
+        <div class="dropdown-buttons-trigger">
+            <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+            <div class="dropdown-buttons">
+                
+                <a class="binder-button" href="https://mybinder.org/v2/gh/scikit-hep/scikit-hep-tutorials/master?urlpath=lab/tree/content/aghast.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+                
+                
+                
+            </div>
+        </div>
+        
+    </div>
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#boost-histogram-to-root-via-root" class="nav-link">boost-histogram to ROOT via ROOT</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#boost-histogram-to-root-via-uproot" class="nav-link">boost-histogram to ROOT via uproot</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#root-to-boost-histogram" class="nav-link">ROOT to boost-histogram</a>
+        </li>
+    
+    </ul>
+</nav>
+
+
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="saving-and-loading-histograms">
+<h1>Saving and loading Histograms<a class="headerlink" href="#saving-and-loading-histograms" title="Permalink to this headline">¶</a></h1>
+<div class="alert alert-warning">
+<p class="admonition-title">Warning</p>
+<p>The URL for this page may change, the general design for this tutorial series is in flux.</p>
+</div>
+<p>Format conversion between <a class="reference external" href="https://root.cern">ROOT</a> and <a class="reference external" href="https://github.com/scikit-hep/boost-histogram">boost-histogram</a> can be performed by Scikit-HEP tools. <a class="reference external" href="https://github.com/scikit-hep/aghast">Aghast</a> is a histogramming library to provide better communication between histogramming libraries, instead of filling or plotting them. Here, you can see how to convert between ROOT and boost-histogram by Aghast.</p>
+<p><strong>Authors</strong></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/LovelyBuggies">Nino</a></p></li>
+<li><p><a class="reference external" href="https://github.com/henryiii">Henry Schreiner</a></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Conda-forge ROOT, provided by Scikit-HEP</span>
+<span class="kn">import</span> <span class="nn">ROOT</span>
+
+<span class="c1"># Standard imports</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Scikit-HEP packages</span>
+<span class="kn">import</span> <span class="nn">boost_histogram</span> <span class="k">as</span> <span class="nn">bh</span>
+<span class="kn">import</span> <span class="nn">aghast</span>
+<span class="kn">import</span> <span class="nn">uproot</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Welcome to JupyROOT 6.20/04
+</pre></div>
+</div>
+</div>
+</div>
+<div class="alert alert-info">
+<p class="admonition-title">Note</p>
+<p>Importing ROOT interferes with Jupyter/IPython, causing tab completion to break and “X is not defined” to be printed out ad-nauseam to the terminal. Sorry. Many cases can be handled by uproot, which avoids this dependency and irritaiton.</p>
+</div>
+<div class="section" id="boost-histogram-to-root-via-root">
+<h2>boost-histogram to ROOT via ROOT<a class="headerlink" href="#boost-histogram-to-root-via-root" title="Permalink to this headline">¶</a></h2>
+<p>Let’s start with a boost-histogram:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">h</span> <span class="o">=</span> <span class="n">bh</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span><span class="n">bh</span><span class="o">.</span><span class="n">axis</span><span class="o">.</span><span class="n">Regular</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">h</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">1_000_000</span><span class="p">))</span>
+
+<span class="c1"># Quick plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">centers</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">h</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">widths</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/aghast_6_0.png" src="../_images/aghast_6_0.png" />
+</div>
+</div>
+<p>If you want a ROOT histogram from boost-histogram object, convert the boost-histogram object to an Aghast histogram at first, and then convert the Aghast histogram to ROOT histogram. We currently need to use to/from NumPy to communicate between the libraries (don’t worry, a copy is not made).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ghastly_hist</span> <span class="o">=</span> <span class="n">aghast</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+<span class="n">ghastly_hist</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;Histogram at 0x7f42d477b970&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s write this with ROOT. Notice that ROOT uses a stateful global interface, so we open a file, we make a new object, then we save the file - the object is created in the open file “magically”. (Does this sound like a problem for things like threading? Yes, it is. It’s going away in ROOT 7 eventually.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">file</span> <span class="o">=</span> <span class="n">ROOT</span><span class="o">.</span><span class="n">TFile</span><span class="p">(</span><span class="s2">&quot;demo_root_file.root&quot;</span><span class="p">,</span> <span class="s2">&quot;RECREATE&quot;</span><span class="p">)</span>
+<span class="n">root_hist</span> <span class="o">=</span> <span class="n">aghast</span><span class="o">.</span><span class="n">to_root</span><span class="p">(</span><span class="n">ghastly_hist</span><span class="p">,</span> <span class="s2">&quot;root_hist&quot;</span><span class="p">)</span>
+<span class="n">file</span><span class="o">.</span><span class="n">Write</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>344
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, let’s open the file with uproot:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rf</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;demo_root_file.root&quot;</span><span class="p">)</span>
+<span class="n">th1</span> <span class="o">=</span> <span class="n">rf</span><span class="p">[</span><span class="s2">&quot;root_hist&quot;</span><span class="p">]</span>
+<span class="n">th1</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>                        0                                             1.6659e+05
+                        +------------------------------------------------------+
+[-inf, -3)   0          |                                                      |
+[-3, -2.6)   3329       |*                                                     |
+[-2.6, -2.2) 9307       |***                                                   |
+[-2.2, -1.8) 21873      |*******                                               |
+[-1.8, -1.4) 44778      |***************                                       |
+[-1.4, -1)   77623      |*************************                             |
+[-1, -0.6)   1.1513e+05 |*************************************                 |
+[-0.6, -0.2) 1.4651e+05 |***********************************************       |
+[-0.2, 0.2)  1.5866e+05 |***************************************************   |
+[0.2, 0.6)   1.4684e+05 |************************************************      |
+[0.6, 1)     1.1577e+05 |**************************************                |
+[1, 1.4)     78192      |*************************                             |
+[1.4, 1.8)   44612      |**************                                        |
+[1.8, 2.2)   22196      |*******                                               |
+[2.2, 2.6)   9202       |***                                                   |
+[2.6, 3)     3319       |*                                                     |
+[3, inf]     0          |                                                      |
+                        +------------------------------------------------------+
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can see that these are <em>similar</em>, though aghast doesn’t handle the overflow bins in the NumPy format yet:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">th1</span><span class="o">.</span><span class="n">allnumpy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(array([     0.,   3329.,   9307.,  21873.,  44778.,  77623., 115134.,
+        146510., 158656., 146844., 115766.,  78192.,  44612.,  22196.,
+          9202.,   3319.,      0.]),
+ array([-inf, -3. , -2.6, -2.2, -1.8, -1.4, -1. , -0.6, -0.2,  0.2,  0.6,
+         1. ,  1.4,  1.8,  2.2,  2.6,  3. ,  inf]))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">h</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(array([  3329.,   9307.,  21873.,  44778.,  77623., 115134., 146510.,
+        158656., 146844., 115766.,  78192.,  44612.,  22196.,   9202.,
+          3319.]),
+ array([-3. , -2.6, -2.2, -1.8, -1.4, -1. , -0.6, -0.2,  0.2,  0.6,  1. ,
+         1.4,  1.8,  2.2,  2.6,  3. ]))
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="boost-histogram-to-root-via-uproot">
+<h2>boost-histogram to ROOT via uproot<a class="headerlink" href="#boost-histogram-to-root-via-uproot" title="Permalink to this headline">¶</a></h2>
+<p>If you want to save and load simple ROOT histograms, <a class="reference external" href="https://github.com/scikit-hep/uproot">uproot</a> is able to read and write directly in NumPy format:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">root_file</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">recreate</span><span class="p">(</span><span class="s2">&quot;demo_uproot_file.root&quot;</span><span class="p">)</span>
+<span class="n">root_file</span><span class="p">[</span><span class="s2">&quot;words&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;See what is in the ROOT File!&quot;</span>
+<span class="n">root_file</span><span class="p">[</span><span class="s2">&quot;hist&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="toggle-body alert">
+<p class="admonition-title">Did you notice something?</p>
+<div class="toggle docutils container">
+<p>There is no <code class="docutils literal notranslate"><span class="pre">.close()</span></code> or context manager here. Uproot 3 closes the file after every operation. Context managers will be available in Uproot 4.</p>
+</div>
+</div>
+<p>Let’s reopen the file:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">root_file2</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;demo_uproot_file.root&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">root_file2</span><span class="p">[</span><span class="s2">&quot;words&quot;</span><span class="p">])</span>
+<span class="n">root_file2</span><span class="p">[</span><span class="s2">&quot;hist&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>See what is in the ROOT File!
+                        0                                             1.6659e+05
+                        +------------------------------------------------------+
+[-inf, -3)   0          |                                                      |
+[-3, -2.6)   3329       |*                                                     |
+[-2.6, -2.2) 9307       |***                                                   |
+[-2.2, -1.8) 21873      |*******                                               |
+[-1.8, -1.4) 44778      |***************                                       |
+[-1.4, -1)   77623      |*************************                             |
+[-1, -0.6)   1.1513e+05 |*************************************                 |
+[-0.6, -0.2) 1.4651e+05 |***********************************************       |
+[-0.2, 0.2)  1.5866e+05 |***************************************************   |
+[0.2, 0.6)   1.4684e+05 |************************************************      |
+[0.6, 1)     1.1577e+05 |**************************************                |
+[1, 1.4)     78192      |*************************                             |
+[1.4, 1.8)   44612      |**************                                        |
+[1.8, 2.2)   22196      |*******                                               |
+[2.2, 2.6)   9202       |***                                                   |
+[2.6, 3)     3319       |*                                                     |
+[3, inf]     0          |                                                      |
+                        +------------------------------------------------------+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="root-to-boost-histogram">
+<h2>ROOT to boost-histogram<a class="headerlink" href="#root-to-boost-histogram" title="Permalink to this headline">¶</a></h2>
+<p>Similarly, you can convert a ROOT histogram to boost-histogram histogram. You’ll want to avoid the <span class="math notranslate nohighlight">\(\infty\)</span> on either end of the NumPy array when you access the edges, and instead rely on the built-in flow bins.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ghastly_hist</span> <span class="o">=</span> <span class="n">aghast</span><span class="o">.</span><span class="n">from_root</span><span class="p">(</span><span class="n">root_hist</span><span class="p">)</span>
+<span class="n">data</span><span class="p">,</span> <span class="n">edges</span> <span class="o">=</span> <span class="n">aghast</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">ghastly_hist</span><span class="p">)</span>
+
+<span class="n">h</span> <span class="o">=</span> <span class="n">bh</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span><span class="n">bh</span><span class="o">.</span><span class="n">axis</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+<span class="n">h</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">data</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">centers</span><span class="p">,</span> <span class="n">h</span><span class="o">.</span><span class="n">view</span><span class="p">(),</span> <span class="n">width</span><span class="o">=</span><span class="n">h</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">widths</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/aghast_22_0.png" src="../_images/aghast_22_0.png" />
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">rm</span> <span class="n">demo_uproot_file</span><span class="o">.</span><span class="n">root</span> <span class="n">demo_root_file</span><span class="o">.</span><span class="n">root</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="basics/units.html" title="previous page">Playing with the HEP system of units</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By The Scikit-HEP Admins and contributors<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="../_static/js/index.js"></script>
+    
+  </body>
+</html>
